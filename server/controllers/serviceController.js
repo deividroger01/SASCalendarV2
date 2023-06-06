@@ -1,5 +1,8 @@
 const { now } = require("mongoose");
-const { Scheduling } = require("../models/Scheduling");
+const {
+  Scheduling: SchedulingModel,
+  schedulingSchema,
+} = require("../models/Scheduling");
 const { Service: ServiceModel, serviceSchema } = require("../models/Service");
 
 const serviceController = {
@@ -64,7 +67,26 @@ const serviceController = {
       if (service.status == true) {
         res.status(401).json({
           screen: "Excluir Serviço",
-          msg: "Serviço não pode ser deletado, pois está ativo!",
+          msg: "Serviço não pode ser excluído, pois está ativo!",
+        });
+        return;
+      }
+
+      const now = new Date().getTime();
+
+      const pendingScheduling = await SchedulingModel.findOne({
+        serviceId: service._id,
+        isoEndTime: { $gte: now },
+      });
+
+      if (
+        pendingScheduling &&
+        pendingScheduling.serviceId &&
+        pendingScheduling.serviceId.toString() === service._id.toString()
+      ) {
+        res.status(401).json({
+          screen: "Editar Serviço",
+          msg: "Não é possível excluir esse serviço pois existem agendamentos pendentes!",
         });
         return;
       }
@@ -96,14 +118,22 @@ const serviceController = {
       };
 
       if (upService.duration === undefined) {
-        /*if (
-          service.status == true &&
-          Scheduling.service.id == service.id &&
-          Scheduling.endHour > now()
+        /*const now = new Date().getTime();
+
+        const pendingScheduling = await SchedulingModel.findOne({
+          serviceId: service._id,
+          isoEndTime: { $gte: now },
+        });
+
+        if (
+          pendingScheduling &&
+          pendingScheduling.serviceId &&
+          service.status === true &&
+          pendingScheduling.serviceId.toString() === service._id.toString()
         ) {
           res.status(401).json({
             screen: "Editar Serviço",
-            msg: "Não é possível alterar desativar esse serviço pois existem agendamentos pendentes!",
+            msg: "Não é possível alterar ou desativar esse serviço pois existem agendamentos pendentes!",
           });
           return;
         }*/

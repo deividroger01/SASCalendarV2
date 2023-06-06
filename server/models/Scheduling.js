@@ -35,6 +35,10 @@ const schedulingSchema = new Schema(
       type: String,
       required: true,
     },
+    isoEndTime: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,

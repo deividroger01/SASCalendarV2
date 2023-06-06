@@ -6,6 +6,8 @@ const {
 const schedulingController = {
   create: async (req, res) => {
     try {
+      const toTimeEndTime = new Date(req.body.endTime).getTime();
+
       const scheduling = {
         eventId: req.body.eventId,
         serviceId: req.body.serviceId,
@@ -14,6 +16,7 @@ const schedulingController = {
         clientEmail: req.body.clientEmail,
         startTime: req.body.startTime,
         endTime: req.body.endTime,
+        isoEndTime: toTimeEndTime,
       };
 
       const response = await SchedulingModel.create(scheduling);
@@ -77,6 +80,7 @@ const schedulingController = {
   update: async (req, res) => {
     try {
       const id = req.params.id;
+      const toTimeEndTime = new Date(req.body.endTime).getTime();
 
       const scheduling = {
         eventId: req.body.eventId,
@@ -86,6 +90,7 @@ const schedulingController = {
         clientEmail: req.body.clientEmail,
         startTime: req.body.startTime,
         endTime: req.body.endTime,
+        isoEndTime: toTimeEndTime,
       };
 
       const updatedScheduling = await SchedulingModel.findByIdAndUpdate(
