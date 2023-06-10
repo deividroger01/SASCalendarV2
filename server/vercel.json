@@ -2,29 +2,29 @@
     "version":2,
     "builds": [
         {
-            "src":"server/app.js",
+            "src":"*.js",
             "use":"@vercel/node"
         }
     ],
     "routes":[
         {
-            "src":"(.*)",
+            "src":"/(.*)",
             "dest": "server/routes/calendar.js"
         },
         {
-            "src":"(.*)",
+            "src":"/(.*)",
             "dest": "server/routes/gAuth.js"
         },
         {
-            "src":"(.*)",
+            "src":"/(.*)",
             "dest": "server/routes/router.js"
         },
         {
-            "src":"(.*)",
+            "src":"/(.*)",
             "dest": "server/routes/scheduling.js"
         },
         {
-            "src":"(.*)",
+            "src":"/(.*)",
             "dest": "server/routes/service.js"
         }
     ]
