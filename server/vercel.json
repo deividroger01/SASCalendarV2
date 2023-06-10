@@ -9,7 +9,23 @@
     "routes":[
         {
             "src":"(.*)",
-            "dest": "server/routes/router"
+            "dest": "server/routes/calendar.js"
+        },
+        {
+            "src":"(.*)",
+            "dest": "server/routes/gAuth.js"
+        },
+        {
+            "src":"(.*)",
+            "dest": "server/routes/router.js"
+        },
+        {
+            "src":"(.*)",
+            "dest": "server/routes/scheduling.js"
+        },
+        {
+            "src":"(.*)",
+            "dest": "server/routes/service.js"
         }
     ]
 }
